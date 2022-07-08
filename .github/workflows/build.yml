@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.prepare.outputs.image }}
+      version: ${{ steps.prepare.outputs.version }}
     steps:
       -
         name: Checkout
@@ -80,4 +83,4 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
-      ref: ${{ needs.build.steps.prepare.outputs.version }}
+      ref: ${{ needs.build.outputs.version }}
