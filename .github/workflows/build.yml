@@ -84,9 +84,7 @@ jobs:
             ghcr.io/${{ fromJson(steps.repo.outputs.result).full_name }}:edge
 
   deploy-staging:
-    runs-on: ubuntu-latest
     needs: build
-    steps:
-      - uses: ./.github/workflows/deploy.yml
-        with:
-          environment: staging
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: staging
