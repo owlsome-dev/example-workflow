@@ -1,0 +1,15 @@
+name: Deploys
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo "{{ inputs.environment }}"
