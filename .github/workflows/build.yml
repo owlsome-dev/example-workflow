@@ -54,7 +54,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{steps.prepate.outputs.image}}:${{ steps.prepare.outputs.version }}
+          tags: ${{steps.prepare.outputs.image}}:${{ steps.prepare.outputs.version }}
           labels: |
             org.opencontainers.image.title=${{ fromJson(steps.repo.outputs.result).name }}
             org.opencontainers.image.description=${{ fromJson(steps.repo.outputs.result).description }}
@@ -65,7 +65,7 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.licenses=${{ fromJson(steps.repo.outputs.result).license.spdx_id }}
           cache-from: |
-            ghcr.io/${{ fromJson(steps.repo.outputs.result).full_name }}:${{ steps.prepare.outputs.previous_version }}
+            ${{steps.prepare.outputs.image}}:${{ steps.prepare.outputs.previous_version }}
 
       - name: Create version tag
         uses: mathieudutour/github-tag-action@v6.0
