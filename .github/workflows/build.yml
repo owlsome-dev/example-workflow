@@ -73,9 +73,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.prepare.outputs.version }}
           tag_prefix: ''
+          release_branches: '.*'
 
   deploy-staging:
     needs: build
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
+      tag: ${{ steps.prepare.outputs.version }}

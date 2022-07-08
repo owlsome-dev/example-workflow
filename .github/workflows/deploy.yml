@@ -7,6 +7,10 @@ on:
         description: 'Environment to deploy to'
         required: true
         type: string 
+      ref:
+        description: 'Revision to deploy'
+        required: true
+        type: string
   
 jobs:
   deploy:
@@ -33,5 +37,5 @@ jobs:
             chart: service6
             namespace: default
     steps:
-      - run: echo "${{ inputs.environment }} - ${{ matrix.release }} - ${{ matrix.chart }} - ${{ matrix.namespace }}"
+      - run: echo "${{ inputs.environment }} - ${{ matrix.release }} - ${{ matrix.chart }} - ${{ matrix.namespace }} - ${{ inputs.ref }}"
 
