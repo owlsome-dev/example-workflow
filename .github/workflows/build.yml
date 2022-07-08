@@ -12,6 +12,8 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
+        with:
+          depth: 2
       -
         name: Repo metadata
         id: repo
