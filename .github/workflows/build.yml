@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - '*'
+      - main
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
             return repo.data
       -
         name: Prepare
-        id: prep
+        id: prepare
         run: |
           DOCKER_IMAGE=ghcr.io/${{ fromJson(steps.repo.outputs.result).full_name }}
           VERSION=noop
@@ -70,14 +70,14 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.prep.outputs.tags }}
+          tags: ${{ steps.prepare.outputs.tags }}
           labels: |
             org.opencontainers.image.title=${{ fromJson(steps.repo.outputs.result).name }}
             org.opencontainers.image.description=${{ fromJson(steps.repo.outputs.result).description }}
             org.opencontainers.image.url=${{ fromJson(steps.repo.outputs.result).html_url }}
             org.opencontainers.image.source=${{ fromJson(steps.repo.outputs.result).clone_url }}
-            org.opencontainers.image.version=${{ steps.prep.outputs.version }}
-            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+            org.opencontainers.image.version=${{ steps.prepare.outputs.version }}
+            org.opencontainers.image.created=${{ steps.prepare.outputs.created }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.licenses=${{ fromJson(steps.repo.outputs.result).license.spdx_id }}
           cache-from: |
@@ -87,9 +87,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
       - uses: ./.github/workflows/deploy.yml
         with:
           environment: staging
