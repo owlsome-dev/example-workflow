@@ -15,8 +15,26 @@ on:
           - whitelabel3
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.prepare.outputs.version }}
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      -
+        name: Prepare
+        id: prepare
+        run: |
+          VERSION=$(TZ=UTC git show --quiet --date="format-local:%Y%m%d%H%M%S" --format="%cd-%h" ${{ github.sha }})
+          echo ::set-output name=version::${VERSION}
   trigger:
+    needs:
+      - prepare
     uses: ./.github/workflows/deploy.yml
     with:
       environment: ${{ inputs.environment }}
-      ref: ${{ github.ref }}
+      ref: ${{ needs.prepare.outputs.version }}
