@@ -16,6 +16,7 @@ on:
 
 jobs:
   prepare:
+    name: Prepare
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.prepare.outputs.version }}
@@ -31,9 +32,10 @@ jobs:
         run: |
           VERSION=$(TZ=UTC git show --quiet --date="format-local:%Y%m%d%H%M%S" --format="%cd-%h" ${{ github.sha }})
           echo ::set-output name=version::${VERSION}
-  trigger:
+  trigger-deploy:
     needs:
       - prepare
+    name: Deploy to ${{ inputs.environment }}
     uses: ./.github/workflows/deploy.yml
     with:
       environment: ${{ inputs.environment }}

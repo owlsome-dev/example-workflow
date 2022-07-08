@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build
     outputs:
       image: ${{ steps.prepare.outputs.image }}
       version: ${{ steps.prepare.outputs.version }}
@@ -79,6 +80,7 @@ jobs:
           release_branches: '.*'
 
   deploy-staging:
+    name: Deploy to staging
     needs: build
     uses: ./.github/workflows/deploy.yml
     with:
