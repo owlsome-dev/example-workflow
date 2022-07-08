@@ -17,5 +17,27 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - release: service1
+            chart: service1
+            namespace: default
+          - release: service1-release-2
+            chart: service1
+            namespace: default
+          - release: service2
+            chart: service2
+            namespace: default
+          - release: service3
+            chart: service3
+            namespace: default
+          - release: service4
+            chart: service5
+            namespace: default
+          - release: service6
+            chart: service6
+            namespace: default
     steps:
-      - run: echo "${{ inputs.environment }}"
+      - run: echo "${{ inputs.environment }} - ${{ matrix.release }} - ${{ matrix.chart }} - ${{ matrix.namespace }}"
+
