@@ -80,4 +80,4 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
-      tag: ${{ needs.build.steps.prepare.outputs.version }}
+      ref: ${{ needs.build.steps.prepare.outputs.version }}
