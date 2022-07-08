@@ -7,12 +7,6 @@ on:
         description: 'Environment to deploy to'
         required: true
         type: string 
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to deploy to'
-        required: true
-        type: string 
   
 jobs:
   deploy:
